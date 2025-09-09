@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hiệu Ứng</title>
+  <style>
+    body {
+      background: #f0f0f8;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(45deg, #ff4d6d, #ff8fa3);
+      transform: rotate(45deg);
+      animation: fly 3s ease-out forwards;
+      box-shadow: 0 2px 10px rgba(255, 93, 109, 0.5);
+      will-change: transform, opacity;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translate(var(--x-start), var(--y-start)) scale(var(--scale-start)) rotate(45deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(var(--x-mid), var(--y-mid)) scale(calc((var(--scale-start) + var(--scale-end)) / 2)) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x-end), var(--y-end)) scale(var(--scale-end)) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    #heart-shape {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #ff4d4d, #ff8fa3);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .dot.filled {
+      opacity: 1;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, #fff, transparent);
+      border-radius: 50%;
+      animation: sparkle 0.5s ease-out forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    #center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      font-weight: bold;
+      color: #ff4d6d;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="heart-shape">
+    <div id="center-text">DTU</div>
+  </div>
+
+  <script>
+    const heartContainer = document.getElementById('heart-shape');
+    let heartCount = 0;
+    const maxHearts = 20;
+    let fillProgress = 0;
+    let dots = [];
+
+    // Tạo hình trái tim
+    function createHeartShape() {
+      const points = [];
+      const scale = 10;
+      for (let t = 0; t < Math.PI * 2; t += 0.05) {
+        const x = scale * 16 * Math.pow(Math.sin(t), 3);
+        const y = -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        points.push({ x, y });
+      }
+
+      points.forEach(p => {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.style.left = `${p.x}px`;
+        dot.style.top = `${p.y}px`;
+        heartContainer.appendChild(dot);
+        dots.push(dot);
+      });
+    }
+
+    // Cập nhật trạng thái lấp đầy + hiện chữ T
+    function updateFillProgress() {
+      fillProgress++;
+      const dotsToFill = Math.min(Math.floor((fillProgress / 50) * dots.length), dots.length);
+
+      for (let i = 0; i < dots.length; i++) {
+        if (i < dotsToFill) {
+          dots[i].classList.add('filled');
+        } else {
+          dots[i].classList.remove('filled');
+        }
+      }
+
+      const centerText = document.getElementById('center-text');
+      if (dotsToFill >= dots.length / 2) {
+        centerText.style.opacity = '1';
+      } else {
+        centerText.style.opacity = '0';
+      }
+
+      if (dotsToFill >= dots.length) {
+        heartContainer.style.animation = 'pulse 0.5s ease-in-out';
+        setTimeout(() => {
+          heartContainer.style.animation = '';
+          fillProgress = 0;
+          dots.forEach(dot => dot.classList.remove('filled'));
+          centerText.style.opacity = '0';
+        }, 500);
+      }
+    }
+
+    // Tạo lấp lánh
+    function createSparkle(x, y) {
+      for (let i = 0; i < 5; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+        sparkle.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 500);
+      }
+    }
+
+    // Bắn tim
+    function shootHeart(startX, startY, isClick = false) {
+      if (heartCount >= maxHearts) return;
+      heartCount++;
+
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+
+      const endX = window.innerWidth / 2;
+      const endY = window.innerHeight / 2;
+
+      const midX = (startX + endX) / 2 + (Math.random() * 100 - 50);
+      const midY = (startY + endY) / 2 - 100;
+
+      heart.style.setProperty('--x-start', `${startX}px`);
+      heart.style.setProperty('--y-start', `${startY}px`);
+      heart.style.setProperty('--x-mid', `${midX}px`);
+      heart.style.setProperty('--y-mid', `${midY}px`);
+      heart.style.setProperty('--x-end', `${endX}px`);
+      heart.style.setProperty('--y-end', `${endY}px`);
+
+      const scaleStart = isClick ? 1.5 : 0.8 + Math.random() * 0.5;
+      const scaleEnd = 0.3;
+
+      heart.style.setProperty('--scale-start', scaleStart);
+      heart.style.setProperty('--scale-end', scaleEnd);
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        createSparkle(endX, endY);
+        updateFillProgress();
+        heart.remove();
+        heartCount--;
+      }, 3000);
+    }
+
+    // Click bắn tim
+    document.addEventListener('click', (e) => {
+      shootHeart(e.clientX, e.clientY, true);
+    });
+
+    // Tự bắn tim
+    function animateHearts() {
+      if (Math.random() < 0.1 && heartCount < maxHearts) {
+        shootHeart(Math.random() * window.innerWidth, window.innerHeight);
+      }
+      requestAnimationFrame(animateHearts);
+    }
+
+    createHeartShape();
+    animateHearts();
+  </script>
+</body>
+</html>
