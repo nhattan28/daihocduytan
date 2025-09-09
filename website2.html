@@ -1,127 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Hiệu Ứng Trang Chủ IT</title>
-        <script>
-               // Ngăn người dùng mở công cụ nhà phát triển
-               document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'j' || e.key === 'c' || e.key === 'u')) || (e.ctrlKey && e.key === 's')) {
-              e.preventDefault();
-            }
-               });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tân</title>
+    <link rel="icon" href="logo.png"/>
+    <style>
 
-               // Chặn menu chuột phải
-               document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-               });
-        </script>
-        <style>
-            html,
-            body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
+      html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden; /* ✅ Cấm cuộn toàn trang */
+      }
+      .layout {
+        display: flex;
+        height: calc(100vh - 60px);
+        position: relative;
+      }
 
-            body {
-                background-color: #000;
-                color: #0f0;
-                font-family: "VT323", monospace;
-                cursor: crosshair;
-                transition: background-color 0.1s ease;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-                font-size: 16px;
-            }
+      .sidebar {
+        width: auto;
+        background-color: #f6eadc;
+        color: black;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+        transform: translateX(-100%);
+        z-index: 1001;
+        position: fixed;
+        height: 100%;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+        scrollbar-width: none;
+      }
 
-            #initial-modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.9);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 300;
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-            }
+      .sidebar::-webkit-scrollbar {
+        display: none;
+      }
 
-            .modal-content {
-                background-color: #000;
-                padding: 30px 50px;
-                border-radius: 10px;
-                text-align: center;
-                box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
-                border: none;
-                animation: glow 1.5s infinite alternate;
-                position: relative;
-            }
+      .sidebar.show {
+        transform: translateX(0);
+      }
 
-            .modal-content h3 {
-                margin-top: 0;
-                font-size: 4em;
-                text-shadow: 0 0 10px #0f0;
-            }
+      .sidebar button {
+        padding: 12px 12px;
+        background: none;
+        border: none;
+        text-align: left;
+        color: black;
+        font-size: 15px;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+      }
 
-            .modal-content p {
-                font-size: 1.2em;
-                margin-bottom: 25px;
-                text-shadow: 0 0 5px #0f0;
-            }
+      .sidebar button:hover {
+        background-color: #aff8e2;
+        color: red;
+      }
 
-            .modal-content button {
-                background-color: #0f0;
-                color: #000;
-                border: none;
-                padding: 12px 25px;
-                margin: 5px;
-                cursor: pointer;
-                border-radius: 5px;
-                transition: transform 0.3s, box-shadow 0.3s;
-                font-family: "VT323", monospace;
-                font-size: 1.2em;
-                font-weight: bold;
-            }
+      .sidebar button.active {
+        background-color: #e6f9f4;
+        color: red;
+        font-weight: bold;
+        border-radius: 6px;
+      }
 
-            .modal-content button:hover {
-                transform: scale(1.05);
-                box-shadow: 0 0 15px #0f0;
-            }
+      .sidebar details {
+        padding: 8px 10px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        transition: background 0.3s;
+      }
 
-            @keyframes glow {
-                from {
-                    box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
-                }
-                to {
-                    box-shadow: 0 0 35px rgba(0, 255, 0, 0.9);
-                }
-            }
+      .sidebar details.active-parent > summary {
+        color: red;
+        font-weight: bold;
+        background-color: #fff0f0;
+        border-radius: 6px;
+        padding: 8px 10px;
+      }
 
-            #haunting-image {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                opacity: 0;
-                transition: opacity 5s ease-in-out;
-                z-index: 100;
-                display: none;
-            }
+      .sidebar details {
+      display: block;
+      }
 
+      .sidebar details > button {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+        }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        display: none;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .content {
+        flex-grow: 1;
+        width: 100%;
+        margin-left: 0;
+        height: 100%;
+      }
+
+        .clock-container {
+            text-align: center;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock {
+            font-size: 15px;
+            color: black;
+            margin-right: 10px;
+        }
+        .date {
+            font-size: 15px;
+            color: black;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 20px;
+            padding: 5px 20px;
+            cursor: pointer;
+            z-index: 1002;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+        }
+        .toggle-btn.hide {
+            display: none;
+            font-size: 2px;
+        }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+       #search-input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px auto;
+        display: block;
+        box-sizing: border-box;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        }
             /* CSS cho mũi tên được cố định ở vị trí dưới nút menu */
         #instruction-arrow {
                 position: fixed;
-                top: -19px;
+                top: 5px;
                 left: 1px;
                 width: 150px;
                 height: auto;
@@ -137,160 +186,77 @@
                     transform: scale(1) rotate(190deg);
                 }
                 50% {
-                    transform: scale(1.1) rotate(147deg);
+                    transform: scale(1.1) rotate(145deg);
                 }
                 100% {
                     transform: scale(1) rotate(145deg);
                 }
             }
+    </style>
+  </head>
+  <body>
+    
+    <div class="clock-container">
+        <div class="clock" id="clock">--:--:--</div>
+        <div class="date" id="date">Đang tải ngày...</div>
+    </div>
 
-            /* CSS chung cho tất cả các video, ban đầu bị ẩn */
-            .video-sequence {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: -1;
-                display: none;
-            }
-        </style>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
-            rel="stylesheet"
-        />
-    </head>
-    <body>
-        <div id="red-menu-button">
-            <div id="red-menu-button-center"></div>
-        </div>
-        <img id="instruction-arrow" src="muiten.png" alt="Mũi tên" />
-
-        <div id="initial-modal">
-            <div class="modal-content">
-                <h3 id="modal-greeting"></h3>
-                <p id="modal-instruction"></p>
-                <button id="modal-ok">Bắt đầu</button>
-            </div>
-        </div>
-
-<!--        <img id="haunting-image" src="anhnenma.png" alt="Ảnh ma" />
-            <audio id="jumpscare-audio" src="nhackinhdi.mp3" preload="auto"></audio> 
--->
+    <button class="toggle-btn" id="toggleBtn" onclick="showSidebar()">☰</button>
+    <div class="overlay" id="overlay" onclick="hideSidebar()"></div>
+<img id="instruction-arrow" src="muiten.png" alt="Mũi tên" />
+    <div class="layout">
+      <div class="sidebar" id="sidebar">
+        <input type="text" id="search-input" placeholder="Tìm kiếm..." oninput="filterMenu()">
+        <button onclick="loadPage(event, 'website2.html')">🏠Trang chủ</button>
+        <details>
+          <summary>🏫 Trường</summary>
+          <button onclick="window.open('https://mydtu.duytan.edu.vn/Signin.aspx', '_blank')">Mydtu</button>
+          <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/home/Default.aspx?lang=VN'">Phòng đào tạo</button>
+          <button onclick="window.location.href='https://gdtcqp.duytan.edu.vn/'">TT GDTC</button>
+       </details>
         
-    <video id="video1" class="video-sequence">
-            <source src="Mơ_hồ.mp4" type="video/mp4" />
-        </video>
+       <details>
+        <summary>📝 Thi</summary>
+        <button onclick="loadPage(event, 'lichthi.html')">Lịch thi</button>
+        <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/Search/Default.aspx?lang=VN'">Tra sách thi</button>
+        <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/EXAM_LIST/Default.aspx?lang=VN'">Danh sách thi</button>
+       </details>
+        <details>
+        <summary>💻 Đăng kí tín chỉ</summary>
+          <button onclick="window.open('https://courses.duytan.edu.vn/sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch', '_blank')">Tra môn học</button>
 
-        <video id="video2" class="video-sequence">
-            <source src="nenvideo1.mp4" type="video/mp4" />
-        </video>
+        </details>
 
-        <script>
-               const initialModal = document.getElementById('initial-modal');
-               const modalGreeting = document.getElementById('modal-greeting');
-               const modalInstruction = document.getElementById('modal-instruction');
-               const modalOk = document.getElementById('modal-ok');
-               const instructionArrow = document.getElementById('instruction-arrow');
+        <details>
+        <summary>💪 GDTCQP</summary>
+            <button onclick="window.location.href='https://gdtcqp.duytan.edu.vn/'">Thể dục-Quốc phòng</button>
+        </details>
 
-               // Lấy tất cả các video và đặt chúng vào một mảng
-               const videoElements = [
-            document.getElementById('video1'),
-            document.getElementById('video2'),
-               ];
+        <details>
+          <summary>📊 Điểm</summary>
+          <button onclick="loadPage(event, 'tinhdiemdtu.html')">Tính điểm</button>
+        </details>
 
-               // Biến để lưu chỉ số video hiện tại
-               let currentVideoIndex = 0;
-               const videoHistoryKey = 'lastPlayedVideoIndex';
+        <details>
+        <summary>📍 Vị trí</summary>
+            <button onclick="loadPage(event, 'dtumaps.html')">Vị trí</button>
+        </details>
 
-               // Hàm tạo hiệu ứng gõ chữ
-               function typeEffect(element, text, speed) {
-            return new Promise(resolve => {
-              let i = 0;
-              element.textContent = '';
-              function type() {
-                if (i < text.length) {
-             element.textContent += text.charAt(i);
-             i++;
-             setTimeout(type, speed);
-                } else {
-             resolve();
-                }
-              }
-              type();
-            });
-               }
+        <details>
+          <summary>📸 Ảnh</summary>
+          <button onclick="loadPage(event, 'anhsv.html')">Ảnh SV DTU</button>
+        </details>
 
-               // Cập nhật lời chào theo giờ địa phương
-               function updateGreeting() {
-            const now = new Date();
-            const hour = now.getHours();
-            let greeting = "";
-            if (hour >= 5 && hour < 12) {
-              greeting = "Chào buổi sáng!";
-            } else if (hour >= 12 && hour < 18) {
-              greeting = "Chào buổi chiều!";
-            } else if (hour >= 18 && hour < 22) {
-              greeting = "Chào buổi tối!";
-            } else {
-              greeting = "Chúc ngủ ngon!";
-            }
-            return greeting;
-               }
+        <details>
+          <summary>🔑 Tài khoản</summary>
+          <button onclick="loadPage(event, 'https://mydtu.duytan.edu.vn/k31/')">Tài khoản</button>
+        </details>
+        </div>
+      <div class="content">
+        <iframe id="iframeView" src="website2.html"></iframe>
+      </div>
+    </div>
 
-               // Xử lý khi video kết thúc: lưu chỉ số video và chuyển hướng
-               function onVideoEnded() {
-            // Cập nhật chỉ số video tiếp theo
-            let nextIndex = (currentVideoIndex + 1) % videoElements.length;
-            localStorage.setItem(videoHistoryKey, nextIndex);
-
-            // Chuyển hướng đến trang hướng dẫn
-            window.location.href = 'gioithieu.html';
-               }
-
-               // Xử lý khi nút Bắt đầu được nhấn
-               async function startSequence() {
-            // Ẩn màn hình bắt đầu
-            initialModal.style.display = 'none';
-
-            // Lấy chỉ số video từ localStorage hoặc mặc định là 0
-            let storedIndex = localStorage.getItem(videoHistoryKey);
-            currentVideoIndex = storedIndex ? parseInt(storedIndex, 10) : 0;
-
-            // Hiển thị và phát video tương ứng
-            const videoToPlay = videoElements[currentVideoIndex];
-            videoToPlay.style.display = 'block';
-            videoToPlay.play();
-
-            // Gắn sự kiện kết thúc cho video đang phát
-            videoToPlay.addEventListener('ended', onVideoEnded);
-               }
-
-               // Khởi động khi tải trang
-               window.addEventListener('load', async () => {
-            // Ẩn ban đầu tất cả các video
-            videoElements.forEach(video => {
-              video.style.display = 'none';
-            });
-            modalOk.style.display = 'none';
-            modalInstruction.style.display = 'none';
-            initialModal.style.display = 'none';
-
-            // Hiển thị mũi tên và nút menu ngay lập tức
-            instructionArrow.style.opacity = '1';
-
-            // Bắt đầu gõ chữ và hiển thị modal
-            setTimeout(async () => {
-              initialModal.style.display = 'flex';
-              const greetingText = updateGreeting();
-              await typeEffect(modalGreeting, greetingText, 70);
-              modalOk.style.display = 'inline-block';
-            }, 0);
-               });
-
-               // Gắn sự kiện click cho nút "Bắt đầu"
-               modalOk.addEventListener('click', startSequence);
-        </script>
-    </body>
+    <script src="index.js"></script>
+  </body>
 </html>
