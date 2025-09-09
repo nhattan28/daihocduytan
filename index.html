@@ -167,17 +167,30 @@
         border-radius: 5px;
         border: 1px solid #ccc;
         }
+            /* CSS cho mũi tên được cố định ở vị trí dưới nút menu */
         #instruction-arrow {
                 position: fixed;
-                top: 1px;
-                left: 0px;
+                top: 5px;
+                left: 1px;
                 width: 150px;
                 height: auto;
-                transform: rotate(140deg);
+                transform: rotate(145deg);
                 animation: pulse 1s infinite;
                 z-index: 400;
                 opacity: 0;
                 transition: opacity 0.5s ease-in-out;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1) rotate(190deg);
+                }
+                50% {
+                    transform: scale(1.1) rotate(145deg);
+                }
+                100% {
+                    transform: scale(1) rotate(145deg);
+                }
             }
     </style>
   </head>
