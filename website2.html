@@ -1,255 +1,296 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hiệu Ứng</title>
-  <style>
-    body {
-      background: #f0f0f8;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100vh;
-    }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hiệu Ứng Trang Chủ IT</title>
+        <script>
+               // Ngăn người dùng mở công cụ nhà phát triển
+               document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'j' || e.key === 'c' || e.key === 'u')) || (e.ctrlKey && e.key === 's')) {
+              e.preventDefault();
+            }
+               });
 
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: linear-gradient(45deg, #ff4d6d, #ff8fa3);
-      transform: rotate(45deg);
-      animation: fly 3s ease-out forwards;
-      box-shadow: 0 2px 10px rgba(255, 93, 109, 0.5);
-      will-change: transform, opacity;
-    }
+               // Chặn menu chuột phải
+               document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+               });
+        </script>
+        <style>
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
 
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: inherit;
-      border-radius: 50%;
-    }
+            body {
+                background-color: #000;
+                color: #0f0;
+                font-family: "VT323", monospace;
+                cursor: crosshair;
+                transition: background-color 0.1s ease;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                font-size: 16px;
+            }
 
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
+            #initial-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 300;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
 
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
+            .modal-content {
+                background-color: #000;
+                padding: 30px 50px;
+                border-radius: 10px;
+                text-align: center;
+                box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
+                border: none;
+                animation: glow 1.5s infinite alternate;
+                position: relative;
+            }
 
-    @keyframes fly {
-      0% {
-        transform: translate(var(--x-start), var(--y-start)) scale(var(--scale-start)) rotate(45deg);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(var(--x-mid), var(--y-mid)) scale(calc((var(--scale-start) + var(--scale-end)) / 2)) rotate(45deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--x-end), var(--y-end)) scale(var(--scale-end)) rotate(45deg);
-        opacity: 0;
-      }
-    }
+            .modal-content h3 {
+                margin-top: 0;
+                font-size: 4em;
+                text-shadow: 0 0 10px #0f0;
+            }
 
-    #heart-shape {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+            .modal-content p {
+                font-size: 1.2em;
+                margin-bottom: 25px;
+                text-shadow: 0 0 5px #0f0;
+            }
 
-    .dot {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: linear-gradient(45deg, #ff4d4d, #ff8fa3);
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
+            .modal-content button {
+                background-color: #0f0;
+                color: #000;
+                border: none;
+                padding: 12px 25px;
+                margin: 5px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: transform 0.3s, box-shadow 0.3s;
+                font-family: "VT323", monospace;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
 
-    .dot.filled {
-      opacity: 1;
-    }
+            .modal-content button:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px #0f0;
+            }
 
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: radial-gradient(circle, #fff, transparent);
-      border-radius: 50%;
-      animation: sparkle 0.5s ease-out forwards;
-      will-change: transform, opacity;
-    }
+            @keyframes glow {
+                from {
+                    box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
+                }
+                to {
+                    box-shadow: 0 0 35px rgba(0, 255, 0, 0.9);
+                }
+            }
 
-    @keyframes sparkle {
-      0% {
-        transform: scale(0.5) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(2) rotate(360deg);
-        opacity: 0;
-      }
-    }
+            #haunting-image {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                opacity: 0;
+                transition: opacity 5s ease-in-out;
+                z-index: 100;
+                display: none;
+            }
 
-    @keyframes pulse {
-      0% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.1); }
-      100% { transform: translate(-50%, -50%) scale(1); }
-    }
+            /* CSS cho mũi tên được cố định ở vị trí dưới nút menu */
+        #instruction-arrow {
+                position: fixed;
+                top: -19px;
+                left: 1px;
+                width: 150px;
+                height: auto;
+                transform: rotate(145deg);
+                animation: pulse 1s infinite;
+                z-index: 400;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
 
-    #center-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 40px;
-      font-weight: bold;
-      color: #ff4d6d;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      user-select: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="heart-shape">
-    <div id="center-text">DTU</div>
-  </div>
+            @keyframes pulse {
+                0% {
+                    transform: scale(1) rotate(190deg);
+                }
+                50% {
+                    transform: scale(1.1) rotate(147deg);
+                }
+                100% {
+                    transform: scale(1) rotate(145deg);
+                }
+            }
 
-  <script>
-    const heartContainer = document.getElementById('heart-shape');
-    let heartCount = 0;
-    const maxHearts = 20;
-    let fillProgress = 0;
-    let dots = [];
+            /* CSS chung cho tất cả các video, ban đầu bị ẩn */
+            .video-sequence {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                display: none;
+            }
+        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div id="red-menu-button">
+            <div id="red-menu-button-center"></div>
+        </div>
+        <img id="instruction-arrow" src="muiten.png" alt="Mũi tên" />
 
-    // Tạo hình trái tim
-    function createHeartShape() {
-      const points = [];
-      const scale = 10;
-      for (let t = 0; t < Math.PI * 2; t += 0.05) {
-        const x = scale * 16 * Math.pow(Math.sin(t), 3);
-        const y = -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-        points.push({ x, y });
-      }
+        <div id="initial-modal">
+            <div class="modal-content">
+                <h3 id="modal-greeting"></h3>
+                <p id="modal-instruction"></p>
+                <button id="modal-ok">Bắt đầu</button>
+            </div>
+        </div>
 
-      points.forEach(p => {
-        const dot = document.createElement('div');
-        dot.className = 'dot';
-        dot.style.left = `${p.x}px`;
-        dot.style.top = `${p.y}px`;
-        heartContainer.appendChild(dot);
-        dots.push(dot);
-      });
-    }
+<!--        <img id="haunting-image" src="anhnenma.png" alt="Ảnh ma" />
+            <audio id="jumpscare-audio" src="nhackinhdi.mp3" preload="auto"></audio> 
+-->
+        
+    <video id="video1" class="video-sequence">
+            <source src="Mơ_hồ.mp4" type="video/mp4" />
+        </video>
 
-    // Cập nhật trạng thái lấp đầy + hiện chữ T
-    function updateFillProgress() {
-      fillProgress++;
-      const dotsToFill = Math.min(Math.floor((fillProgress / 50) * dots.length), dots.length);
+        <video id="video2" class="video-sequence">
+            <source src="nenvideo1.mp4" type="video/mp4" />
+        </video>
 
-      for (let i = 0; i < dots.length; i++) {
-        if (i < dotsToFill) {
-          dots[i].classList.add('filled');
-        } else {
-          dots[i].classList.remove('filled');
-        }
-      }
+        <script>
+               const initialModal = document.getElementById('initial-modal');
+               const modalGreeting = document.getElementById('modal-greeting');
+               const modalInstruction = document.getElementById('modal-instruction');
+               const modalOk = document.getElementById('modal-ok');
+               const instructionArrow = document.getElementById('instruction-arrow');
 
-      const centerText = document.getElementById('center-text');
-      if (dotsToFill >= dots.length / 2) {
-        centerText.style.opacity = '1';
-      } else {
-        centerText.style.opacity = '0';
-      }
+               // Lấy tất cả các video và đặt chúng vào một mảng
+               const videoElements = [
+            document.getElementById('video1'),
+            document.getElementById('video2'),
+               ];
 
-      if (dotsToFill >= dots.length) {
-        heartContainer.style.animation = 'pulse 0.5s ease-in-out';
-        setTimeout(() => {
-          heartContainer.style.animation = '';
-          fillProgress = 0;
-          dots.forEach(dot => dot.classList.remove('filled'));
-          centerText.style.opacity = '0';
-        }, 500);
-      }
-    }
+               // Biến để lưu chỉ số video hiện tại
+               let currentVideoIndex = 0;
+               const videoHistoryKey = 'lastPlayedVideoIndex';
 
-    // Tạo lấp lánh
-    function createSparkle(x, y) {
-      for (let i = 0; i < 5; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
-        sparkle.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 500);
-      }
-    }
+               // Hàm tạo hiệu ứng gõ chữ
+               function typeEffect(element, text, speed) {
+            return new Promise(resolve => {
+              let i = 0;
+              element.textContent = '';
+              function type() {
+                if (i < text.length) {
+             element.textContent += text.charAt(i);
+             i++;
+             setTimeout(type, speed);
+                } else {
+             resolve();
+                }
+              }
+              type();
+            });
+               }
 
-    // Bắn tim
-    function shootHeart(startX, startY, isClick = false) {
-      if (heartCount >= maxHearts) return;
-      heartCount++;
+               // Cập nhật lời chào theo giờ địa phương
+               function updateGreeting() {
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting = "";
+            if (hour >= 5 && hour < 12) {
+              greeting = "Chào buổi sáng!";
+            } else if (hour >= 12 && hour < 18) {
+              greeting = "Chào buổi chiều!";
+            } else if (hour >= 18 && hour < 22) {
+              greeting = "Chào buổi tối!";
+            } else {
+              greeting = "Chúc ngủ ngon!";
+            }
+            return greeting;
+               }
 
-      const heart = document.createElement('div');
-      heart.className = 'heart';
+               // Xử lý khi video kết thúc: lưu chỉ số video và chuyển hướng
+               function onVideoEnded() {
+            // Cập nhật chỉ số video tiếp theo
+            let nextIndex = (currentVideoIndex + 1) % videoElements.length;
+            localStorage.setItem(videoHistoryKey, nextIndex);
 
-      const endX = window.innerWidth / 2;
-      const endY = window.innerHeight / 2;
+            // Chuyển hướng đến trang hướng dẫn
+            window.location.href = 'gioithieu.html';
+               }
 
-      const midX = (startX + endX) / 2 + (Math.random() * 100 - 50);
-      const midY = (startY + endY) / 2 - 100;
+               // Xử lý khi nút Bắt đầu được nhấn
+               async function startSequence() {
+            // Ẩn màn hình bắt đầu
+            initialModal.style.display = 'none';
 
-      heart.style.setProperty('--x-start', `${startX}px`);
-      heart.style.setProperty('--y-start', `${startY}px`);
-      heart.style.setProperty('--x-mid', `${midX}px`);
-      heart.style.setProperty('--y-mid', `${midY}px`);
-      heart.style.setProperty('--x-end', `${endX}px`);
-      heart.style.setProperty('--y-end', `${endY}px`);
+            // Lấy chỉ số video từ localStorage hoặc mặc định là 0
+            let storedIndex = localStorage.getItem(videoHistoryKey);
+            currentVideoIndex = storedIndex ? parseInt(storedIndex, 10) : 0;
 
-      const scaleStart = isClick ? 1.5 : 0.8 + Math.random() * 0.5;
-      const scaleEnd = 0.3;
+            // Hiển thị và phát video tương ứng
+            const videoToPlay = videoElements[currentVideoIndex];
+            videoToPlay.style.display = 'block';
+            videoToPlay.play();
 
-      heart.style.setProperty('--scale-start', scaleStart);
-      heart.style.setProperty('--scale-end', scaleEnd);
+            // Gắn sự kiện kết thúc cho video đang phát
+            videoToPlay.addEventListener('ended', onVideoEnded);
+               }
 
-      document.body.appendChild(heart);
+               // Khởi động khi tải trang
+               window.addEventListener('load', async () => {
+            // Ẩn ban đầu tất cả các video
+            videoElements.forEach(video => {
+              video.style.display = 'none';
+            });
+            modalOk.style.display = 'none';
+            modalInstruction.style.display = 'none';
+            initialModal.style.display = 'none';
 
-      setTimeout(() => {
-        createSparkle(endX, endY);
-        updateFillProgress();
-        heart.remove();
-        heartCount--;
-      }, 3000);
-    }
+            // Hiển thị mũi tên và nút menu ngay lập tức
+            instructionArrow.style.opacity = '1';
 
-    // Click bắn tim
-    document.addEventListener('click', (e) => {
-      shootHeart(e.clientX, e.clientY, true);
-    });
+            // Bắt đầu gõ chữ và hiển thị modal
+            setTimeout(async () => {
+              initialModal.style.display = 'flex';
+              const greetingText = updateGreeting();
+              await typeEffect(modalGreeting, greetingText, 70);
+              modalOk.style.display = 'inline-block';
+            }, 0);
+               });
 
-    // Tự bắn tim
-    function animateHearts() {
-      if (Math.random() < 0.1 && heartCount < maxHearts) {
-        shootHeart(Math.random() * window.innerWidth, window.innerHeight);
-      }
-      requestAnimationFrame(animateHearts);
-    }
-
-    createHeartShape();
-    animateHearts();
-  </script>
-</body>
+               // Gắn sự kiện click cho nút "Bắt đầu"
+               modalOk.addEventListener('click', startSequence);
+        </script>
+    </body>
 </html>
