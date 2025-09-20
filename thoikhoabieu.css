@@ -1,0 +1,440 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tabs {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tab-button.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    max-width: 1200px;
+    width: 100%;
+}
+
+.page {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.input-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-row label {
+    font-weight: bold;
+    margin-right: 10px;
+    width: 120px;
+    color: #333;
+}
+
+.input-row input, .input-row select {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-right: 20px;
+    transition: border-color 0.3s;
+}
+
+.input-row input:focus, .input-row select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+#campus-location-field, .campus-location-field {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+#campus-location-field label, .campus-location-field label {
+    width: 80px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.file-action-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.add-course-btn{
+    background-color: #87f765;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.add-session-btn {
+    background-color: #e87070;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-course-btn:hover, .add-session-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.file-action-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.export-btn {
+    background-color: #ff9800;
+    color: white;
+}
+
+.export-btn:hover {
+    background-color: #f57c00;
+    transform: translateY(-2px);
+}
+
+.import-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.import-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.clear-all-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.clear-all-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+.timetable-switch-buttons {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.timetable-button {
+    background-color: #ddd;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.timetable-button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Updated style for sticky header */
+.timetable-display {
+    overflow-x: auto;
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 500px; /* Set a max height to make it scrollable */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+/* Sticky header styles */
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    word-wrap: break-word;
+    vertical-align: top;
+    height: 40px;
+}
+
+th {
+    background-color: #d8f5d8;
+    font-weight: bold;
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Stick to the top of the container */
+    z-index: 10; /* Ensure it stays on top of other content */
+}
+
+td.time-label {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+.online-class {
+    background-color: #e0f2f1;
+    border-left: 5px solid #009688;
+}
+
+.campus-class {
+    background-color: #fffde7;
+    border-left: 5px solid #ffc107;
+}
+
+.danger {
+    background-color: #ffebee !important;
+    color: #c62828 !important;
+}
+
+.remove-btn, .remove-session-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+}
+
+.remove-btn:hover, .remove-session-btn:hover {
+    background-color: #c82333;
+}
+
+.course-summary {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1.1em;
+}
+.course-summary p {
+    margin: 5px 0;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.checkbox-group label {
+    margin-bottom: 5px;
+}
+
+/* Custom Alert Styles */
+.alert-container {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.alert-box.success {
+    border-left: 5px solid #28a745;
+}
+
+.alert-box.error {
+    border-left: 5px solid #dc3545;
+}
+
+.alert-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.alert-icon.success::after {
+    content: '👍';
+}
+
+.alert-icon.error::after {
+    content: '⚠️';
+}
+
+#alert-message {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#alert-ok-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#alert-ok-btn:hover {
+    background-color: #388e3c;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h2, h3 {
+    text-align: center;
+    color: #444;
+}
+
+.class-session-row {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.class-session-row .input-row {
+    margin-bottom: 5px;
+}
+
+/* Thêm thanh cuộn cho bảng */
+.course-list {
+    overflow-x: auto;
+    overflow-y: auto; /* Thêm cuộn dọc */
+    max-height: 400px; /* Đặt chiều cao tối đa cho bảng */
+}
+
+/* Cố định hàng tiêu đề bảng */
+.course-list table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #d8f5d8; /* Giữ màu nền để tiêu đề nổi bật */
+}
+
+
+
+
+/* Thêm đoạn này vào style.css */
+.input-group {
+    flex: 1; /* Chia đều không gian cho mỗi nhóm input */
+    min-width: 250px; /* Đảm bảo mỗi nhóm có độ rộng tối thiểu */
+}
+
+.input-row {
+    display: flex;
+    justify-content: center; /* Căn giữa các phần tử theo chiều ngang */
+    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng nếu không đủ chỗ */
+    gap: 20px; /* Tạo khoảng cách giữa các phần tử */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+/* Sửa lại các input để có độ rộng hợp lý */
+.input-row input, 
+.input-row select {
+    width: 100%; /* Đặt chiều rộng thành 100% */
+    padding: 12px; /* Tăng padding để thanh input trông dài hơn */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box; /* Quan trọng: Đảm bảo padding không làm tăng tổng chiều rộng */
+    transition: all 0.3s ease;
+}
+/* Căn chỉnh lại bố cục tổng thể */
+.form-columns {
+    display: flex;
+    flex-direction: column; /* Sắp xếp các cột theo chiều dọc, mỗi cột chiếm 100% chiều rộng */
+    gap: 25px; /* Khoảng cách giữa các hàng */
+}
+/* Các lớp form-column không còn cần thiết nếu form hiển thị 1 cột */
+.form-column {
+    flex: none; /* Bỏ flex để không chia cột */
+    width: 100%;
+}
+
+/* Căn giữa tiêu đề */
+h2, h3 {
+    text-align: center;
+}
