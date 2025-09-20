@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thời Khóa Biểu Đăng Ký Tín Chỉ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="showPage('page1')">Nhập Môn Học</button>
+        <button class="tab-button" onclick="showPage('page2')">Thời Khóa Biểu</button>
+        <button class="tab-button" onclick="showPage('page3')">Môn Đã Đăng Ký</button>
+    </div>
+
+    <div class="container">
+        <div id="page1" class="page">
+            <h2>Nhập thông tin môn học</h2>
+            <form id="course-form" autocomplete="off">
+                <div class="input-row">
+                    <label for="course-name">Tên môn học:</label>
+                    <input type="text" id="course-name" required autocomplete="off" placeholder="VD: Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)">
+                    <label for="class-code">Mã lớp:</label>
+                    <input type="text" id="class-code" required autocomplete="off" placeholder="VD: PHI 100 U">
+                </div>
+                <div class="input-row">
+                    <label for="reg-code">Mã đăng ký:</label>
+                    <input type="text" id="reg-code" required autocomplete="off" placeholder="VD: PHI100202501001">
+                    <label for="semester-week">Tuần học:</label>
+                    <input type="text" id="semester-week" list="week-list" required autocomplete="off" placeholder="VD: Giai đoạn 1">
+                    <datalist id="week-list">
+                        <option value="Giai đoạn 1"></option>
+                        <option value="Giai đoạn 2"></option>
+                        <option value="Cả 2 giai đoạn"></option>
+                    </datalist>
+                </div>
+                <div class="input-row">
+                    <label for="day-of-week">Thứ:</label>
+                    <input type="text" id="day-of-week" list="day-list" required autocomplete="off" placeholder="VD: T2">
+                    <datalist id="day-list">
+                        <option value="T2"></option>
+                        <option value="T3"></option>
+                        <option value="T4"></option>
+                        <option value="T5"></option>
+                        <option value="T6"></option>
+                        <option value="T7"></option>
+                        <option value="CN"></option>
+                    </datalist>
+                    <label for="time">Giờ học:</label>
+                    <input type="text" id="time" list="time-list" required autocomplete="off" placeholder="VD: 07:00-09:00">
+                    <datalist id="time-list">
+                        <option value="07:00-09:00"></option>
+                        <option value="07:00-10:15"></option>
+                        <option value="07:00-11:15"></option>
+                        <option value="09:15-11:15"></option>
+                        <option value="13:00-15:00"></option>
+                        <option value="13:00-16:15"></option>
+                        <option value="13:00-17:15"></option>
+                        <option value="15:15-17:15"></option>
+                        <option value="17:45-21:00"></option>
+                    </datalist>
+                </div>
+                <div class="input-row">
+                    <label for="location-type">Loại địa điểm:</label>
+                    <select id="location-type" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="online">Online</option>
+                        <option value="campus">Cơ sở</option>
+                    </select>
+                    <div id="campus-location-field" style="display:none;">
+                        <label for="location">Địa điểm:</label>
+                        <input type="text" id="location" list="campus-list" autocomplete="off" placeholder="Chọn địa điểm">
+                        <datalist id="campus-list">
+                            <option value="Hòa Khánh Nam"></option>
+                            <option value="209 Phan Thanh"></option>
+                            <option value="K7/25 Quang Trung"></option>
+                            <option value="254 Nguyễn Văn Linh"></option>
+                            <option value="78A Phan Văn Trị"></option>
+                            <option value="137 Nguyễn Văn Linh"></option>
+                            <option value="03 Quang Trung"></option>
+                        </datalist>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <label for="lecturer">Giảng viên:</label>
+                    <input type="text" id="lecturer" required autocomplete="off" placeholder="VD: Nguyễn Văn A">
+                    <label for="credits">Tín chỉ:</label>
+                    <input type="number" id="credits" list="credits-list" required min="1" max="10" autocomplete="off" placeholder="VD: 3">
+                    <datalist id="credits-list">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                        <option value="6"></option>
+                        <option value="7"></option>
+                        <option value="8"></option>
+                        <option value="9"></option>
+                        <option value="10"></option>
+                    </datalist>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="add-course-btn">Thêm môn học</button>
+                    <div class="file-action-group">
+                        <button type="button" class="file-action-btn export-btn" onclick="exportData()">Xuất File</button>
+                        <label class="file-action-btn import-btn custom-file-upload">
+                            <input type="file" id="import-file-page1" accept=".json" onchange="loadData(event)"/>
+                            Tải File
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div id="page2" class="page" style="display:none;">
+            <h2>Thời khóa biểu</h2>
+            <div class="timetable-switch-buttons">
+                <button class="timetable-button active" onclick="showTimetable('1')">Giai đoạn 1</button>
+                <button class="timetable-button" onclick="showTimetable('2')">Giai đoạn 2</button>
+            </div>
+            
+            <div id="timetable-gd1" class="timetable-display">
+                <table id="table-gd1">
+                    <thead>
+                        <tr>
+                            <th class="time-header">Thời gian</th>
+                            <th>Thứ 2</th>
+                            <th>Thứ 3</th>
+                            <th>Thứ 4</th>
+                            <th>Thứ 5</th>
+                            <th>Thứ 6</th>
+                            <th>Thứ 7</th>
+                            <th>Chủ nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+            
+            <div id="timetable-gd2" class="timetable-display" style="display:none;">
+                <table id="table-gd2">
+                    <thead>
+                        <tr>
+                            <th class="time-header">Thời gian</th>
+                            <th>Thứ 2</th>
+                            <th>Thứ 3</th>
+                            <th>Thứ 4</th>
+                            <th>Thứ 5</th>
+                            <th>Thứ 6</th>
+                            <th>Thứ 7</th>
+                            <th>Chủ nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="page3" class="page" style="display:none;">
+            <h2>Các môn đã đăng ký</h2>
+            <div class="course-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên môn học</th>
+                            <th>Mã lớp</th>
+                            <th>Mã ĐK</th>
+                            <th>Giai đoạn</th>
+                            <th>Tín chỉ</th>
+                            <th>Giảng viên</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registered-courses-body">
+                    </tbody>
+                </table>
+                <div class="course-summary">
+                    <p><strong>Tổng số tín chỉ:</strong> <span id="total-credits">0</span></p>
+                </div>
+                <div class="file-actions">
+                    <button type="button" class="file-action-btn export-btn" onclick="exportData()">Xuất File</button>
+                    <label class="file-action-btn import-btn custom-file-upload">
+                        <input type="file" id="import-file-page3" accept=".json" onchange="loadData(event)"/>
+                        Tải File
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="custom-alert" class="alert-container">
+        <div class="alert-box">
+            <span id="alert-icon" class="alert-icon"></span>
+            <p id="alert-message"></p>
+            <button id="alert-ok-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
