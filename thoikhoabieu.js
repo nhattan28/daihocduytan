@@ -397,58 +397,63 @@ document.getElementById('course-form').addEventListener('submit', function (e) {
     renderTimetable();
     showAlert('Đăng ký môn học thành công!', 'success');
     document.getElementById('course-form').reset();
-    document.getElementById('class-sessions-container').innerHTML = `
-        <div class="class-session-row">
-            <div class="input-row">
-                <label for="day-of-week-0">Thứ:</label>
-                <input type="text" id="day-of-week-0" class="day-of-week" list="day-list" required autocomplete="off" placeholder="VD: T2">
-                <datalist id="day-list">
-                    <option value="T2"></option>
-                    <option value="T3"></option>
-                    <option value="T4"></option>
-                    <option value="T5"></option>
-                    <option value="T6"></option>
-                    <option value="T7"></option>
-                    <option value="CN"></option>
-                </datalist>
-                <label for="time-0">Giờ học:</label>
-                <input type="text" id="time-0" class="time" list="time-list" required autocomplete="off" placeholder="VD: 07:00-09:00">
-                <datalist id="time-list">
-                    <option value="07:00-09:00"></option>
-                    <option value="07:00-10:15"></option>
-                    <option value="07:00-11:15"></option>
-                    <option value="09:15-11:15"></option>
-                    <option value="13:00-15:00"></option>
-                    <option value="13:00-16:15"></option>
-                    <option value="13:00-17:15"></option>
-                    <option value="15:15-17:15"></option>
-                    <option value="17:45-21:00"></option>
-                </datalist>
-            </div>
-            <div class="input-row">
-                <label for="location-type-0">Loại địa điểm:</label>
-                <select id="location-type-0" class="location-type" required>
-                    <option value="">-- Chọn --</option>
-                    <option value="online">Online</option>
-                    <option value="campus">Cơ sở</option>
-                </select>
-<div class="campus-location-field" style="display:none;">
-    <label for="location-0">Địa điểm:</label>
-    <select id="location-0" class="location" required>
-        <option value="">-- Chọn địa điểm --</option>
-        <option value="Hòa Khánh Nam">Hòa Khánh Nam</option>
-        <option value="209 Phan Thanh">209 Phan Thanh</option>
-        <option value="K7/25 Quang Trung">K7/25 Quang Trung</option>
-        <option value="254 Nguyễn Văn Linh">254 Nguyễn Văn Linh</option>
-        <option value="78A Phan Văn Trị">78A Phan Văn Trị</option>
-        <option value="137 Nguyễn Văn Linh">137 Nguyễn Văn Linh</option>
-        <option value="03 Quang Trung">03 Quang Trung</option>
-    </select>
-</div>
-                <button type="button" class="remove-session-btn" style="display:none;">Xóa</button>
-            </div>
+ // Thay thế đoạn mã cũ bằng đoạn HTML sau để form hiển thị lại dropdown
+document.getElementById('class-sessions-container').innerHTML = `
+<div class="class-session-row">
+    <div class="input-row">
+        <div class="input-group">
+            <label for="day-of-week-0">Thứ:</label>
+            <select id="day-of-week-0" class="day-of-week" required>
+                <option value="">-- Chọn --</option>
+                <option value="T2">T2</option>
+                <option value="T3">T3</option>
+                <option value="T4">T4</option>
+                <option value="T5">T5</option>
+                <option value="T6">T6</option>
+                <option value="T7">T7</option>
+                <option value="CN">CN</option>
+            </select>
         </div>
-    `;
+        <div class="input-group">
+            <label for="time-0">Giờ học:</label>
+            <select id="time-0" class="time" required>
+                <option value="">-- Chọn --</option>
+                <option value="07:00-09:00">07:00 - 09:00</option>
+                <option value="07:00-10:15">07:00 - 10:15</option>
+                <option value="07:00-11:15">07:00 - 11:15</option>
+                <option value="09:15-11:15">09:15 - 11:15</option>
+                <option value="13:00-15:00">13:00 - 15:00</option>
+                <option value="13:00-16:15">13:00 - 16:15</option>
+                <option value="13:00-17:15">13:00 - 17:15</option>
+                <option value="15:15-17:15">15:15 - 17:15</option>
+                <option value="17:45-21:00">17:45 - 21:00</option>
+            </select>
+        </div>
+    </div>
+    <div class="input-row">
+        <label for="location-type-0">Loại địa điểm:</label>
+        <select id="location-type-0" class="location-type" required>
+            <option value="">-- Chọn --</option>
+            <option value="online">Online</option>
+            <option value="campus">Cơ sở</option>
+        </select>
+        <div class="campus-location-field" style="display:none;">
+            <label for="location-0">Địa điểm:</label>
+            <select id="location-0" class="location" required>
+                <option value="">-- Chọn địa điểm --</option>
+                <option value="Hòa Khánh Nam">Hòa Khánh Nam</option>
+                <option value="209 Phan Thanh">209 Phan Thanh</option>
+                <option value="K7/25 Quang Trung">K7/25 Quang Trung</option>
+                <option value="254 Nguyễn Văn Linh">254 Nguyễn Văn Linh</option>
+                <option value="78A Phan Văn Trị">78A Phan Văn Trị</option>
+                <option value="137 Nguyễn Văn Linh">137 Nguyễn Văn Linh</option>
+                <option value="03 Quang Trung">03 Quang Trung</option>
+            </select>
+        </div>
+        <button type="button" class="remove-session-btn" style="display:none;">Xóa</button>
+    </div>
+</div>
+`;
     sessionCounter = 1;
     document.querySelector('.class-session-row .location-type').addEventListener('change', handleLocationTypeChange);
     document.querySelector('.class-session-row .remove-session-btn').addEventListener('click', removeSession);
