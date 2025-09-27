@@ -133,11 +133,27 @@ window.filterMenu = function() {
 
 // ✅ Logic hoàn chỉnh để kiểm soát mũi tên
 const iframeView = document.getElementById('iframeView');
+// Giả định 'instructionArrow' đã được định nghĩa và có thể truy cập được
+
 iframeView.addEventListener('load', function() {
+    // Luôn truy cập location của iframe sau khi tải xong
     const currentSrc = iframeView.contentWindow.location.href;
     
-    // Nếu URL chứa 'lichthi.html', mũi tên sẽ ẩn và không nhận click.
-    if (currentSrc.includes('lichthi.html')) {
+    // ĐỊNH NGHĨA DANH SÁCH CÁC TRANG CẦN ẨN MŨI TÊN
+    const pagesToHideArrow = [
+        'lichthi.html', 
+        'timmonthi.html', // Đã sửa lỗi logic từ lần trước
+        'thoikhoabieu.html', 
+        'tinhdiemdtu.html', 
+        'dtumaps.html', 
+        'anhsv.html'
+    ];
+    
+    // KIỂM TRA: Sử dụng .some() để kiểm tra xem URL có chứa BẤT KỲ chuỗi nào trong danh sách không
+    const shouldHide = pagesToHideArrow.some(page => currentSrc.includes(page));
+
+    if (shouldHide) {
+        // Nếu URL chứa BẤT KỲ trang nào trong danh sách, mũi tên sẽ ẩn và không nhận click.
         instructionArrow.style.opacity = '0';
         instructionArrow.style.pointerEvents = 'none';
     } else {
@@ -146,6 +162,8 @@ iframeView.addEventListener('load', function() {
         instructionArrow.style.pointerEvents = 'auto';
     }
 });
+
+// ---
 
 // Hiển thị mũi tên khi trang vừa tải lần đầu
 window.onload = function() {
