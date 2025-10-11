@@ -208,13 +208,19 @@
       <div class="sidebar" id="sidebar">
         <input type="text" id="search-input" placeholder="Tìm kiếm..." oninput="filterMenu()">
         <button onclick="loadPage(event, 'website2.html')">🏠Trang chủ</button>
+
         <details>
           <summary>🏫 Trường</summary>
           <button onclick="window.open('https://mydtu.duytan.edu.vn/Signin.aspx', '_blank')">Mydtu</button>
           <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/home/Default.aspx?lang=VN'">Phòng đào tạo</button>
           <button onclick="window.location.href='https://gdtcqp.duytan.edu.vn/'">TT GDTC</button>
        </details>
-        
+
+        <details>
+            <summary>📢 Thông báo</summary>
+            <button onclick="window.open ('https://lhss.duytan.edu.vn/announcements')">Thông báo</button>
+        </details>
+
        <details>
         <summary>📝 Thi</summary>
         <button onclick="loadPage(event, 'lichthi.html')">Lịch thi</button>
@@ -252,6 +258,3 @@
     <script src="index.js"></script>
   </body>
 </html>
-
-
-
