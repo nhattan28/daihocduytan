@@ -203,7 +203,7 @@
 
     <button class="toggle-btn" id="toggleBtn" onclick="showSidebar()">☰</button>
     <div class="overlay" id="overlay" onclick="hideSidebar()"></div>
-<img id="instruction-arrow" src="muiten.png" alt="Mũi tên" />
+    <img id="instruction-arrow" src="muiten.png" alt="Mũi tên" />
     <div class="layout">
       <div class="sidebar" id="sidebar">
         <input type="text" id="search-input" placeholder="Tìm kiếm..." oninput="filterMenu()">
@@ -228,6 +228,7 @@
         <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/Search/Default.aspx?lang=VN'">Tra sách thi</button>
         <button onclick="window.location.href='https://pdaotao.duytan.edu.vn/EXAM_LIST/Default.aspx?lang=VN'">Danh sách thi</button>
        </details>
+
         <details>
         <summary>💻 Đăng kí tín chỉ</summary>
           <button onclick="window.open('https://courses.duytan.edu.vn/sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch', '_blank')">Tra môn học</button>
@@ -249,6 +250,11 @@
             <button onclick="loadPage(event, 'dtumaps.html')">Vị trí</button>
         </details>
         
+        <details>
+          <summary>📷 Ảnh</summary>
+          <button onclick="loadPage(event, 'anhsv.html')">Ảnh</button>
+        </details>
+
         </div>
       <div class="content">
         <iframe id="iframeView" src="website2.html"></iframe>
