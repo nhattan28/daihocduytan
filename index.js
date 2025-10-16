@@ -146,7 +146,8 @@ iframeView.addEventListener('load', function() {
         'thoikhoabieu.html', 
         'tinhdiemdtu.html', 
         'dtumaps.html', 
-        'anhsv.html'
+        'anhsv.html',
+        'tinhdiemhocphandtu.html'
     ];
     
     // KIỂM TRA: Sử dụng .some() để kiểm tra xem URL có chứa BẤT KỲ chuỗi nào trong danh sách không
@@ -170,3 +171,4 @@ window.onload = function() {
     instructionArrow.style.opacity = '1';
     instructionArrow.style.pointerEvents = 'auto';
 };
+
